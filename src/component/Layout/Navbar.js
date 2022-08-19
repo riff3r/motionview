@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "react-use-cart";
+import { getFromDB } from "../util/addToDb";
 import Cart from "./Cart";
 
 export default function NavBar() {
   const { totalUniqueItems } = useCart();
-
+  const orders = getFromDB();
   return (
     <div className="navbar bg-base-200 mb-10">
       <div className="container mx-auto">
@@ -15,9 +16,14 @@ export default function NavBar() {
           </Link>
         </div>
         <div className="flex-none">
-          <Link to="dashboard" className="ml-auto">
-            Dashboard
-          </Link>
+          {orders.length ? (
+            <Link to="dashboard" className="ml-auto">
+              Dashboard
+            </Link>
+          ) : (
+            ""
+          )}
+
           <div className="dropdown dropdown-end">
             <label tabIndex="0" className="btn btn-ghost btn-circle">
               <div className="indicator">
